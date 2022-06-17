@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "405495547016",
+    "firebase_url": "https://schoolineid-434e8-default-rtdb.firebaseio.com",
+    "project_id": "schoolineid-434e8",
+    "storage_bucket": "schoolineid-434e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405495547016:android:7d4cbafa705ebb09c18b3d",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405495547016-jvlm3hr8jmd71dqes3qf3tfpl76aivtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKRSnvXbrwVN0U_aZ8zbSZgh3HkpnhI4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405495547016-jvlm3hr8jmd71dqes3qf3tfpl76aivtd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405495547016:android:78fc761062a53e1ec18b3d",
+        "android_client_info": {
+          "package_name": "com.example.scholineid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405495547016-jvlm3hr8jmd71dqes3qf3tfpl76aivtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKRSnvXbrwVN0U_aZ8zbSZgh3HkpnhI4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405495547016-jvlm3hr8jmd71dqes3qf3tfpl76aivtd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405495547016:android:533dcc72b75cf0e9c18b3d",
+        "android_client_info": {
+          "package_name": "com.example.tugas_akhir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405495547016-jvlm3hr8jmd71dqes3qf3tfpl76aivtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKRSnvXbrwVN0U_aZ8zbSZgh3HkpnhI4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405495547016-jvlm3hr8jmd71dqes3qf3tfpl76aivtd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
