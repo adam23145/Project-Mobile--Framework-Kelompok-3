@@ -91,12 +91,21 @@ class _DataAppGuruState extends State<DataAppGuru> {
                             children: [
                               Container(
                                 constraints: const BoxConstraints(
-                                  minHeight: 30,
-                                  minWidth: 30,
-                                  maxHeight: 30,
-                                  maxWidth: 30,
+                                  minHeight: 50,
+                                  minWidth: 50,
+                                  maxHeight: 50,
+                                  maxWidth: 50,
                                 ),
                                 decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 0.3,
+                                      blurRadius: 6,
+                                      offset: Offset(
+                                          0, 4), // changes position of shadow
+                                    )
+                                  ],
                                   borderRadius: BorderRadius.circular(30),
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
@@ -109,14 +118,14 @@ class _DataAppGuruState extends State<DataAppGuru> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Expanded(
-                                child: Text(
-                                  qs['nama'],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 10),
-                                ),
-                              ),
+                              // Expanded(
+                              //   child: Text(
+                              //     qs['nama'],
+                              //     overflow: TextOverflow.ellipsis,
+                              //     style: TextStyle(
+                              //         color: Colors.black, fontSize: 10),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
