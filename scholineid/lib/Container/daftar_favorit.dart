@@ -15,6 +15,7 @@ class DaftarFavorit extends StatefulWidget {
 }
 
 class _DaftarFavoritState extends State<DaftarFavorit> {
+  late String paket2;
   Stream<QuerySnapshot> _messageStream = FirebaseFirestore.instance
       .collection('daftar_favorit')
       .orderBy('total_like', descending: true)
@@ -85,20 +86,37 @@ class _DaftarFavoritState extends State<DaftarFavorit> {
                                 height: 60,
                                 width: 270,
                                 child: MaterialButton(
-                                  onPressed: () {
-                                    print(qs['kelas']);
-                                    print(qs['sem']);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => appBarMateri(
-                                              like: qs['total_like'],
-                                                uid : qs['Uid'],
-                                                guru: qs['nama_pengajar'],
-                                                email: widget.email,
-                                                kelas: qs['kelas'],
-                                                semester: qs['sem'],
-                                                materi: qs['title'])));
+                                  onPressed: () async {
+                                    final snapshot = await FirebaseFirestore
+                                        .instance
+                                        .collection('user')
+                                        .where('email', isEqualTo: widget.email)
+                                        .get()
+                                        .then((QuerySnapshot querySnapshot) {
+                                      querySnapshot.docs.forEach((doc) {
+                                        return paket2 = doc["paket"];
+                                      });
+                                    });
+                                    paket2 == ""
+                                        ? ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                            content: Text(
+                                                'Terjadi Kesalahan Pada Paket'),
+                                          ))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    appBarMateri(
+                                                        paket2: paket2,
+                                                        like: qs['total_like'],
+                                                        uid: qs['Uid'],
+                                                        guru:
+                                                            qs['nama_pengajar'],
+                                                        email: widget.email,
+                                                        kelas: qs['kelas'],
+                                                        semester: qs['sem'],
+                                                        materi: qs['title'])));
                                   },
                                   child: Card(
                                     clipBehavior: Clip.antiAlias,
@@ -173,7 +191,7 @@ class _DaftarFavoritState extends State<DaftarFavorit> {
                                                   ),
                                                   Container(
                                                       child: like_widget(
-                                                        like: qs['total_like'],
+                                                    like: qs['total_like'],
                                                   ))
                                                 ],
                                               )

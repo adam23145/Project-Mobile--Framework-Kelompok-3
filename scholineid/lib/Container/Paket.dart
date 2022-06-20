@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:scholineid/Container/paket_kelas.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class paket extends StatefulWidget {
@@ -34,28 +35,33 @@ class _paketState extends State<paket> {
             itemCount: 1,
             itemBuilder: (BuildContext context, index) {
               QueryDocumentSnapshot qs = snapshot.data!.docs[index];
-              return Container(
-                      height: 30,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.orange,
-                        boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 0.1,
-                              blurRadius: 3,
-                              offset:
-                                  Offset(0, 4), // changes position of shadow
-                            )
-                          ],
-                      ),
-                      child: Center(
-                          child: Text(
-                        qs['paket'],
-                        style: TextStyle(color: Colors.white),
-                      )),
-                    );
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => paketKelas(email: widget.email,)));
+                },
+                child: Container(
+                  height: 30,
+                  width: 75,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.orange,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 0.1,
+                        blurRadius: 3,
+                        offset: Offset(0, 4), // changes position of shadow
+                      )
+                    ],
+                  ),
+                  child: Center(
+                      child: Text(
+                    qs['paket'],
+                    style: TextStyle(color: Colors.white),
+                  )),
+                ),
+              );
             });
       },
     );

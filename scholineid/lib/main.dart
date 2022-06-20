@@ -65,23 +65,25 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var name = 1;
     return AnimatedSplashScreen(
-      splash: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 200),
-            child: Image.asset('assets/images/logo.png'),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 280),
-            child: const Text(
-              "ScholLine.id",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+      splash: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 200),
+              child: Image.asset('assets/images/logo.png'),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 100),
+              child: const Text(
+                "ScholLine.id",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            )
+          ],
+        ),
       ),
       backgroundColor: Color(0xFF5563EF),
       nextScreen: name == 2 ? OnboardingScreen() : OnboardingScreen(),

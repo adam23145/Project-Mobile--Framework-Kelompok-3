@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:scholineid/Container/forgot_password.dart';
 import 'package:scholineid/Container/main_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scholineid/Container/Dashboard.dart';
@@ -16,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure3 = true;
+  late String paket;
   bool visible = false;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
@@ -31,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(top: 60.0),
               child: Center(
                 child: Container(
-                  margin: EdgeInsets.only(top: 50),
+                    margin: EdgeInsets.only(top: 50),
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -78,14 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 30,
                   ),
-                  Text(
-                    "Login",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 40,
-                    ),
-                  ),
+                 
                   SizedBox(
                     height: 20,
                   ),
@@ -176,6 +172,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
+                  GestureDetector(
+                    onTap: (){
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ForgotPassword()),
+                        );},
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20,right: 20, left:20),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width, 
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              child: Text('Forgot Password ?', style: TextStyle(fontSize: 14),),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 60,
                   ),
@@ -193,8 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             visible = true;
                           });
-                          SharedPreferences preferences = await SharedPreferences.getInstance();
-                          preferences.setString('email', emailController.text);
+
                           signIn(emailController.text, passwordController.text);
                         },
                         child: Text(
@@ -211,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -223,7 +240,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text("Don't Have an Account?"),
-                          Text("Sign Up", style: TextStyle(color: Colors.red[400]!),)
+                          Text(
+                            "Sign Up",
+                            style: TextStyle(color: Colors.red[400]!),
+                          )
                         ],
                       ),
                     ),
@@ -240,7 +260,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            
           ],
         ),
       ),
@@ -255,23 +274,38 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email,
           password: password,
         );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Hi! ${email}'),
-          )
-      );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Hi! ${email}'),
+        ));
+        final snapshot = await FirebaseFirestore.instance
+            .collection('user')
+            .where('email', isEqualTo: emailController.text)
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+            return paket = doc["paket"];
+          });
+        });
+        print(paket);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setString('email', emailController.text);
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => mainHome(
-              
-            ),
+            builder: (context) => mainHome(),
           ),
         );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('No user found for that email.'),
+        ));
           print('No user found for that email.');
         } else if (e.code == 'wrong-password') {
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Wrong password provided for that user.'),
+        ));
           print('Wrong password provided for that user.');
         }
       }

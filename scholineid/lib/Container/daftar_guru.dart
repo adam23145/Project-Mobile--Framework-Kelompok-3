@@ -6,13 +6,14 @@ import 'package:scholineid/Container/all_guru.dart';
 import 'package:scholineid/models/data.dart';
 
 class DataAppGuru extends StatefulWidget {
-  const DataAppGuru({Key? key}) : super(key: key);
+  DataAppGuru({Key? key}) : super(key: key);
 
   @override
   State<DataAppGuru> createState() => _DataAppGuruState();
 }
 
 class _DataAppGuruState extends State<DataAppGuru> {
+  late String paket;
   Stream<QuerySnapshot> _messageStream =
       FirebaseFirestore.instance.collection('teacher').snapshots();
   @override
@@ -57,10 +58,19 @@ class _DataAppGuruState extends State<DataAppGuru> {
                     Text("Teachers",
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     new FlatButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        final snapshot = await FirebaseFirestore.instance
+                              .collection('user')
+                              .where('email', isEqualTo: "ganery231@gmail.com")
+                              .get()
+                              .then((QuerySnapshot querySnapshot) {
+                            querySnapshot.docs.forEach((doc) {
+                              return paket = doc["paket"];
+                            });
+                          });
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const guru()),
+                          MaterialPageRoute(builder: (context) => guru(paket: paket,)),
                         );
                       },
                       child: Text("See All"),

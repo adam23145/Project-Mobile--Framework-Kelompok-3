@@ -13,16 +13,33 @@ class Detail_pelajaran extends StatefulWidget {
   String guru = "";
   String uid = "";
   int like;
-  Detail_pelajaran({Key? key, required this.materi,required this.uid, required this.kelas, required this.semester, required this.guru, required this.like}) : super(key: key);
+  String paket = "";
+  Detail_pelajaran(
+      {Key? key,
+      required this.materi,
+      required this.uid,
+      required this.kelas,
+      required this.semester,
+      required this.guru,
+      required this.like,
+      required this.paket
+      })
+      : super(key: key);
 
   @override
   State<Detail_pelajaran> createState() => _Detail_pelajaranState();
 }
 
 class _Detail_pelajaranState extends State<Detail_pelajaran> {
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getEmail();
+  }
 
   String email = "";
-
   Future getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -30,12 +47,6 @@ class _Detail_pelajaranState extends State<Detail_pelajaran> {
     });
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getEmail();
-  }
   String materi2 = "";
   String videoLink = "";
   @override
@@ -67,17 +78,33 @@ class _Detail_pelajaranState extends State<Detail_pelajaran> {
               children: [
                 Container(
                   padding: EdgeInsets.only(left: 20, top: 20),
-                  child: Text(widget.materi, textAlign: TextAlign.start,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                  child: Text(
+                    widget.materi,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 20, right: 20,top: 10),
-                      child: kelas(kelas2: widget.kelas, semester: widget.semester,materi: materi2,guru: widget.guru,email: email,uid: widget.uid, like: widget.like,)),
+                    padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                    child: kelas(
+                      kelas2: widget.kelas,
+                      semester: widget.semester,
+                      materi: materi2,
+                      guru: widget.guru,
+                      email: email,
+                      uid: widget.uid,
+                      like: widget.like,
+                    )),
                 Container(
                   padding: EdgeInsets.only(top: 10),
                   child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.docs.length,
+                      shrinkWrap: true, 
+                      itemCount: widget.paket == "free plan"
+                      ? snapshot.data!.docs.length == 0 
+                        ? 0
+                        : 1
+                      : snapshot.data!.docs.length,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (BuildContext context, index) {
                         QueryDocumentSnapshot qs = snapshot.data!.docs[index];
@@ -107,8 +134,9 @@ class _Detail_pelajaranState extends State<Detail_pelajaran> {
                                             Column(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 10, left: 20),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10, left: 20),
                                                   child: CircleAvatar(
                                                       radius: 25,
                                                       backgroundImage: AssetImage(
@@ -132,10 +160,13 @@ class _Detail_pelajaranState extends State<Detail_pelajaran> {
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
-                                                                  top: 4),
-                                                          child: Text(
-                                                              "Mean, Median and Modus"),
+                                                              const EdgeInsets
+                                                                  .only(top: 4),
+                                                          child: Container(
+                                                            width: 120,
+                                                            child: Text(
+                                                                qs['detail_pelajaran'],overflow: TextOverflow.ellipsis,),
+                                                          ),
                                                         )
                                                       ],
                                                     ),

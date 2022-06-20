@@ -16,12 +16,21 @@ class DataMateri extends StatefulWidget {
 
 class _DataMateriState extends State<DataMateri> {
   String email = "";
+
   Future getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       email = preferences.getString('email')!;
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getEmail();
+  }
+  late String paket;
 
   Stream<QuerySnapshot> _messageStream =
       FirebaseFirestore.instance.collection('daftar_categories').snapshots();
@@ -47,12 +56,27 @@ class _DataMateriState extends State<DataMateri> {
               itemBuilder: (BuildContext context, index) {
                 QueryDocumentSnapshot qs = snapshot.data!.docs[index];
                 return MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => favorite(
-                                email: email, materi: qs['title'])));
+                  onPressed: () async {
+                    final snapshot = await FirebaseFirestore.instance
+                        .collection('user')
+                        .where('email', isEqualTo: email)
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                      querySnapshot.docs.forEach((doc) {
+                        return paket = doc["paket"];
+                      });
+                    });
+                    paket == ""
+                        ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Terjadi Kesalahan Pada Paket'),
+                          ))
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => favorite(
+                                    paket2: paket,
+                                    email: email,
+                                    materi: qs['title'])));
                   },
                   child: GestureDetector(
                     child: Container(

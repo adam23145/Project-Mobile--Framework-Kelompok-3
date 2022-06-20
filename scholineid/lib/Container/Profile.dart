@@ -2,6 +2,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scholineid/Container/Nama.dart';
+import 'package:scholineid/Container/NamaProfile.dart';
+import 'package:scholineid/Container/Notifikasi.dart';
 import 'package:scholineid/Container/Paket.dart';
 import 'package:scholineid/Container/database_manager.dart';
 import 'package:scholineid/Container/profile_get.dart';
@@ -23,6 +25,27 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  Future exitDialog(){
+    return showDialog(
+      context: context, 
+      builder: (context) => new AlertDialog(
+        title: Text("Are You Sure ?"),
+        content: Text("Do you want to logout ?"),
+        actions: [
+          FlatButton(
+            onPressed: (){
+              logOut();
+            }, child: Text("Yes")),
+            FlatButton(
+            onPressed: (){
+              Navigator.of(context).pop(false);
+            }, child: Text("no")),
+        ],
+      )
+    );
+  }
+
   String email = "";
 
   Future getEmail() async {
@@ -85,9 +108,10 @@ class _ProfileState extends State<Profile> {
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               child: FutureBuilder(
@@ -106,24 +130,22 @@ class _ProfileState extends State<Profile> {
                                     return Text("");
                                   }),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Flexible(
-                              child: NamaDiDashboard(
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: NamaProfile(
                                 email: email,
                               ),
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                  child: Image.asset("assets/images/kunci.png"),
-                                )
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(0),
+                            //       ),
+                            //       child: Image.asset("assets/images/kunci.png"),
+                            //     )
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
@@ -134,35 +156,35 @@ class _ProfileState extends State<Profile> {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      width: 400,
-                      height: 45,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 0.1,
-                              blurRadius: 6,
-                              offset:
-                                  Offset(0, 4), // changes position of shadow
-                            )
-                          ],
-                        ),
-                        child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                                backgroundColor: abuBiru,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: Text(
-                              "Edit Profile",
-                              style: TextStyle(color: Colors.black),
-                            )),
-                      ),
-                    ),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20),
+                    //   width: 400,
+                    //   height: 45,
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(10),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           color: Colors.black.withOpacity(0.3),
+                    //           spreadRadius: 0.1,
+                    //           blurRadius: 6,
+                    //           offset:
+                    //               Offset(0, 4), // changes position of shadow
+                    //         )
+                    //       ],
+                    //     ),
+                    //     child: TextButton(
+                    //         onPressed: () {},
+                    //         style: TextButton.styleFrom(
+                    //             backgroundColor: abuBiru,
+                    //             shape: RoundedRectangleBorder(
+                    //                 borderRadius: BorderRadius.circular(10))),
+                    //         child: Text(
+                    //           "Edit Profile",
+                    //           style: TextStyle(color: Colors.black),
+                    //         )),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 30,
                     ),
@@ -187,69 +209,49 @@ class _ProfileState extends State<Profile> {
                               )
                             ],
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    child: Icon(
-                                      EvaIcons.bellOutline,
-                                      color: Cblue,
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Notifikasi(email: email,)),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      child: Icon(
+                                        EvaIcons.bellOutline,
+                                        color: Cblue,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    child: Text("Notifications"),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                child: Text(
-                                  "0",
-                                  style: TextStyle(
-                                      color: Colors.black.withOpacity(0.3)),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Container(
+                                      child: Text("Notifications"),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ],
+                                Container(
+                                  child: Text(
+                                    "0",
+                                    style: TextStyle(
+                                        color: Colors.black.withOpacity(0.3)),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                     MaterialButton(
                       onPressed: () {
-                        showAlertDialog(BuildContext context) {
-                          // set up the buttons
-                          Widget cancelButton = TextButton(
-                            child: Text("Cancel"),
-                            onPressed: () {},
-                          );
-                          Widget continueButton = TextButton(
-                            child: Text("Continue"),
-                            onPressed: () {},
-                          );
-
-                          // set up the AlertDialog
-                          AlertDialog alert = AlertDialog(
-                            title: Text("AlertDialog"),
-                            content: Text(
-                                "Would you like to continue learning how to use Flutter alerts?"),
-                            actions: [
-                              cancelButton,
-                              continueButton,
-                            ],
-                          );
-
-                          // show the dialog
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return alert;
-                            },
-                          );
-                        }
+                        exitDialog();
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10),

@@ -5,13 +5,15 @@ import 'package:scholineid/Container/App_bar%20Materi.dart';
 import 'package:scholineid/Container/Dashboard.dart';
 import 'package:scholineid/Container/like_widget.dart';
 import 'package:scholineid/warna/constans.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'daftar_materi_grid.dart';
 
 class favorite extends StatefulWidget {
   String materi = "";
   String email = "";
-  favorite({Key? key, required this.materi, required this.email})
+  String paket2 ="";
+  favorite({Key? key, required this.materi, required this.email, required this.paket2})
       : super(key: key);
 
   @override
@@ -19,6 +21,7 @@ class favorite extends StatefulWidget {
 }
 
 class _favoriteState extends State<favorite> {
+
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> _messageStream = FirebaseFirestore.instance
@@ -35,7 +38,10 @@ class _favoriteState extends State<favorite> {
             return Center(
                 child: Scaffold(
               appBar: AppBar(
-                backgroundColor: Cblue,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                centerTitle: true,
+                foregroundColor: Color.fromARGB(255, 16, 69, 112),
                 title: Text(
                   "Daftar Materi",
                   textAlign: TextAlign.center,
@@ -45,7 +51,10 @@ class _favoriteState extends State<favorite> {
           }
           return Scaffold(
               appBar: AppBar(
-                backgroundColor: Cblue,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                foregroundColor: Color.fromARGB(255, 16, 69, 112),
+                centerTitle: true,
                 title: Text(
                   "Daftar Materi",
                   textAlign: TextAlign.center,
@@ -70,7 +79,11 @@ class _favoriteState extends State<favorite> {
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height,
                                     child: ListView.builder(
-                                        itemCount: snapshot.data!.docs.length,
+                                        itemCount: widget.paket2 == "free plan"
+                                        ? snapshot.data!.docs.length == 0
+                                          ? 0 
+                                          : 1
+                                        : snapshot.data!.docs.length,
                                         scrollDirection: Axis.vertical,
                                         itemBuilder: (context, index) {
                                           QueryDocumentSnapshot qs =
@@ -85,6 +98,7 @@ class _favoriteState extends State<favorite> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           appBarMateri(
+                                                            paket2: widget.paket2,
                                                             like: qs['total_like'],
                                                             uid: qs['Uid'],
                                                             guru: qs['nama_pengajar'],

@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     height: 20,
                   ),
-                  const DataAppGuru(),
+                  DataAppGuru(),
                   SizedBox(
                     height: 120,
                   ),

@@ -5,26 +5,24 @@ import 'package:scholineid/Container/login.dart';
 import 'package:scholineid/Container/reusable_widget/reusable_widget.dart';
 import 'package:scholineid/warna/constans.dart';
 
-class Register2 extends StatefulWidget {
-  String email;
-  Register2({Key? key, required this.email}) : super(key: key);
+class paketKelas extends StatefulWidget {
+  String email =""; 
+  paketKelas({Key? key, required this.email}) : super(key: key);
 
   @override
-  State<Register2> createState() => _Register2State();
+  State<paketKelas> createState() => _Register2State();
 }
 
-class _Register2State extends State<Register2> {
-  TextEditingController controllerFreeplan = TextEditingController();
-  TextEditingController controllerPesrsonal = TextEditingController();
-  TextEditingController controllerProplan = TextEditingController();
+class _Register2State extends State<paketKelas> {
+  String freeplan = "free plan";
+    String personalplan = "personal plan";
+    String prooplant = "pro plan";
+  TextEditingController controllerNama = TextEditingController();
+  TextEditingController controllerEmail = TextEditingController();
+  TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerConfPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
-    String freeplan = "free plan";
-    String personalplan = "personal plan";
-    String prooplant = "pro plan";
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -51,23 +49,7 @@ class _Register2State extends State<Register2> {
                               fontSize: 20),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 60.0),
-                        child: Center(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.4),
-                                    spreadRadius: 2,
-                                    blurRadius: 100,
-                                  ),
-                                ],
-                              ),
-                              child:
-                                  Image.asset('assets/images/Register2/3.png')),
-                        ),
-                      ),
+                      
                       SizedBox(
                         height: 50,
                       ),
@@ -100,7 +82,7 @@ class _Register2State extends State<Register2> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  height: 50,
+                                  height: 55,
                                   child: TextButton(
                                       style: TextButton.styleFrom(
                                         backgroundColor: Color(0xFF98A5FF),
@@ -131,6 +113,7 @@ class _Register2State extends State<Register2> {
                                                           Text("Free Plan")
                                                         ],
                                                       ),
+                                                      
                                                       Container(
                                                         child: Text(
                                                             "Suitable for early users to be more familiar with the use of this platform."),
@@ -189,8 +172,10 @@ class _Register2State extends State<Register2> {
                                                                   .only(
                                                                       top: 10),
                                                               width: 150,
-                                                              child: Text(
-                                                                  "Explore learning material videos"))
+                                                              child: Container(
+                                                                child: Text(
+                                                                    "Explore learning material videos",),
+                                                              ))
                                                         ],
                                                       ),
                                                     ],
@@ -403,7 +388,7 @@ class _Register2State extends State<Register2> {
                                                       Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => confPembayaran(email: widget.email, paket: personalplan)));
+                                                                  builder: (context) => confPembayaran(email: widget.email, paket: prooplant)));
                                                     }, child: Text("Langganan")),
                                                   TextButton(
                                                     child: const Text("close"),
@@ -613,12 +598,7 @@ class _Register2State extends State<Register2> {
                                                 ),
                                                 actions: [
                                                   TextButton(
-                                                    onPressed: (){
-                                                      Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => confPembayaran(email: widget.email, paket: prooplant)));
-                                                    }, child: Text("Langganan")),
+                                                    onPressed: (){}, child: Text("Langganan")),
                                                   TextButton(
                                                     child: const Text("close"),
                                                     onPressed: () {
@@ -677,26 +657,23 @@ class _Register2State extends State<Register2> {
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        width: 380,
+                        width: 200,
                         height: 55,
                         child: TextButton(
                             onPressed: () {
-                              
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
+                              Navigator.pop(context);
                             },
                             style: TextButton.styleFrom(
                                 backgroundColor: Cblue,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
                             child: Text(
-                              "Go to Login",
+                              "Close",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             )),
                       ),
+                      SizedBox(height: 40,)
                     ],
                   ),
                 )

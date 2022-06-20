@@ -2,6 +2,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scholineid/Container/App_bar%20Materi.dart';
+import 'package:scholineid/Container/Paket.dart';
 import 'package:scholineid/Container/favorite.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:scholineid/Container/all_material.dart';
@@ -17,11 +18,13 @@ class DataAppMenu extends StatefulWidget {
 }
 
 class _DataAppMenuState extends State<DataAppMenu> {
+  late Map<String, dynamic> data;
   late String imagepath;
   Stream<QuerySnapshot> _messageStream =
       FirebaseFirestore.instance.collection('daftar_categories').snapshots();
 
   final ref = FirebaseStorage.instance.ref().child('register2').child('3.png');
+  late String paket;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -32,7 +35,7 @@ class _DataAppMenuState extends State<DataAppMenu> {
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Padding(
-              padding: const EdgeInsets.only(left: 20,right: 20,top: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
               child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -93,14 +96,24 @@ class _DataAppMenuState extends State<DataAppMenu> {
                     itemBuilder: (BuildContext context, index) {
                       QueryDocumentSnapshot qs = snapshot.data!.docs[index];
                       return MaterialButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final snapshot = await FirebaseFirestore.instance
+                              .collection('user')
+                              .where('email', isEqualTo: widget.email)
+                              .get()
+                              .then((QuerySnapshot querySnapshot) {
+                            querySnapshot.docs.forEach((doc) {
+                              return paket = doc["paket"];
+                            });
+                          });
+                          print(paket);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => favorite(
+                                    paket2: paket,
                                       email: widget.email,
-                                      materi: qs['title']
-                                      )));
+                                      materi: qs['title'])));
                         },
                         child: GestureDetector(
                           child: Container(

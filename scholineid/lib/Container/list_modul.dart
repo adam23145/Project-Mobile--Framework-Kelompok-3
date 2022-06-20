@@ -1,18 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:scholineid/Container/pdf_viewer.dart';
 import 'package:scholineid/Container/video.dart';
 import 'package:scholineid/quizz/screens/home_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
-class Quizz extends StatefulWidget {
+class ModulLIst extends StatefulWidget {
   String materi = "";
-  Quizz({Key? key, required this.materi}) : super(key: key);
+  ModulLIst({Key? key, required this.materi}) : super(key: key);
 
   @override
-  State<Quizz> createState() => _QuizzState();
+  State<ModulLIst> createState() => _ModulState();
 }
 
-class _QuizzState extends State<Quizz> {
+class _ModulState extends State<ModulLIst> {
   String materi2 = "";
   @override
   Widget build(BuildContext context) {
@@ -45,11 +46,10 @@ class _QuizzState extends State<Quizz> {
                     QueryDocumentSnapshot qs = snapshot.data!.docs[index];
                     return MaterialButton(
                       onPressed: () {
-                        print(qs['nama_materi']);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen(dataquizz: qs['nama_materi'])));
+                                builder: (context) => PdfViewer(pdfLink: qs['link_pdf'], materi: widget.materi)));
                       },
                       child: Container(
                         height: 80,

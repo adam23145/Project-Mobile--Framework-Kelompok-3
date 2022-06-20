@@ -19,7 +19,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   TextEditingController _searchController = TextEditingController();
-
+  late String paket;
   String name = "";
   @override
   Widget build(BuildContext context) {
@@ -61,14 +61,29 @@ class _SearchState extends State<Search> {
                     itemBuilder: (context, index) {
                       DocumentSnapshot data = snapshot.data!.docs[index];
                       return MaterialButton(
-                        onPressed: () {
+                        onPressed: () async {
                           print(data['title']);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => favorite(
-                                      email: widget.email,
-                                      materi: data['title'])));
+                          final snapshot = await FirebaseFirestore.instance
+                              .collection('user')
+                              .where('email', isEqualTo: widget.email)
+                              .get()
+                              .then((QuerySnapshot querySnapshot) {
+                            querySnapshot.docs.forEach((doc) {
+                              return paket = doc["paket"];
+                            });
+                          });
+                          paket == ""
+                              ? ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                  content: Text('Terjadi Kesalahan Pada Paket'),
+                                ))
+                              : Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => favorite(
+                                          paket2: paket,
+                                          email: widget.email,
+                                          materi: data['title'])));
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 16),
